@@ -12,6 +12,8 @@ import java.util.function.Supplier;
 @org.springframework.stereotype.Service
 public class ServiceImp implements Service{
 
+    private static int validSubmission;
+    private static int invalidSubmission;
     private final UserRepo userRepo;
 
     public ServiceImp(UserRepo userRepo) {
@@ -25,17 +27,14 @@ public class ServiceImp implements Service{
 
     @Override
     public User updateUser(String name, String str) {
-        User user = userRepo.findById(name).orElseGet((Supplier<? extends User>) new User(name,0,0,0));
-        if (checkSubmission(str)) {
-            user.setScore(getScore(str) + user.getScore());
-            user.setValidSubmissions(user.getValidSubmissions() + 1);
-        }
-        user.setTotalSubmissions(user.getTotalSubmissions() + 1);
+        User user = userRepo.findById(name).orElse(new User(name,0));
         return userRepo.saveAndFlush(user);
     }
 
     @Override
     public void reset() {
+        validSubmission = 0;
+        invalidSubmission = 0;
         userRepo.deleteAll();
     }
 
@@ -56,26 +55,8 @@ public class ServiceImp implements Service{
 
     @Override
     public String getHealth() {
-        List<User> userList= userRepo.findAll();
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < userList.size(); i++) {
-            User user = userList.get(i);
-            sb.append(user.getName() + ": Total Submissions--" + user.getTotalSubmissions()
-                    +", Total Valid Submissions--" + user.getValidSubmissions()
-            + ", Total Invalid Submissions--" + (user.getTotalSubmissions() - user.getValidSubmissions()));
-            if (i != userList.size() - 1) {
-                sb.append("\n");
-            }
-        }
-        return sb.toString();
-    }
-
-    @Override
-    public boolean checkSubmission(String str) {
-        if (str == null || str.length() == 0 || str.length() > 10000) {
-            return false;
-        }
-        return true;
+        String health = "valid submissions: " + validSubmission + ", invalid submissions: " + invalidSubmission;
+        return health;
     }
 
     @Override

@@ -7,6 +7,4 @@ import javax.persistence.Column;
 public class UserDTO {
     private String name;
     private int score;
-    private int validSubmissions;
-    private int totalSubmissions;
 }

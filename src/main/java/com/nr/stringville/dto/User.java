@@ -23,8 +23,4 @@ public class User {
     private String name;
     @Column(name = "score")
     private int score;
-    @Column(name = "validSubmissions")
-    private int validSubmissions;
-    @Column(name = "totalSubmissions")
-    private int totalSubmissions;
 }

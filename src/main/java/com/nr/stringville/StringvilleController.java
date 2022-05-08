@@ -5,12 +5,9 @@ import com.nr.stringville.dto.UserDTO;
 import com.nr.stringville.service.Service;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class StringvilleController {
@@ -31,15 +28,16 @@ public class StringvilleController {
     }
 
     @PostMapping("/submission")
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ResponseEntity submission(@RequestBody String submission) {
-        String[] submissionArray = submission.split(",",1);
-        UserDTO userDTO = new UserDTO();
-        String str = submissionArray[0];
-        userDTO.setName(submissionArray[1]);
-        User userSubmission = modelMapper.map(userDTO, User.class);
+            String[] submissionArray = submission.split(",", 2);
+            UserDTO userDTO = new UserDTO();
+            String str = submissionArray[0];
+            userDTO.setName(submissionArray[1]);
+            User userSubmission = modelMapper.map(userDTO, User.class);
 
-        User user = service.updateUser(userSubmission.getName(), str);
-        return ResponseEntity.status(200).body("accepted");
+            User user = service.updateUser(userSubmission.getName(), str);
+            return ResponseEntity.status(200).body("accepted");
     }
 
     @GetMapping("/results")

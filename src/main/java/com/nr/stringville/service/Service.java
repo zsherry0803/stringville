@@ -10,6 +10,5 @@ public interface Service {
     void reset();
     String getResult();
     String getHealth();
-    boolean checkSubmission(String str);
     int getScore(String str);
 }
