@@ -37,7 +37,7 @@ public class StringvilleController {
             User userSubmission = modelMapper.map(userDTO, User.class);
 
             User user = service.updateUser(userSubmission.getName(), str);
-            return ResponseEntity.status(200).body("accepted");
+            return ResponseEntity.status(200).body(user.getName() + " accepted");
     }
 
     @GetMapping("/results")

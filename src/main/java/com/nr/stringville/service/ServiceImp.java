@@ -28,6 +28,8 @@ public class ServiceImp implements Service{
     @Override
     public User updateUser(String name, String str) {
         User user = userRepo.findById(name).orElse(new User(name,0));
+        int score = getScore(str);
+        user.setScore(user.getScore() + score);
         return userRepo.saveAndFlush(user);
     }
 
@@ -46,7 +48,7 @@ public class ServiceImp implements Service{
         for (int i = 0; i < userList.size() && i < 10; i++) {
             User user = userList.get(i);
             sb.append(user.getName() + "," + user.getScore());
-            if (i != userList.size() - 1 || i != 9) {
+            if (i != userList.size() - 1 && i != 9) {
                 sb.append("\n");
             }
         }
