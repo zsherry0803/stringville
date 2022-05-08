@@ -34,5 +34,8 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.4'
     // https://mvnrepository.com/artifact/com.sun.istack/istack-commons-runtime
     implementation 'com.sun.istack:istack-commons-runtime:3.0.11'
+    // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+    implementation 'org.modelmapper:modelmapper:3.1.0'
+
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
