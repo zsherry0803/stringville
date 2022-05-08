@@ -36,7 +36,7 @@ public class ServiceImp implements Service{
 
     @Override
     public void reset() {
-
+        userRepo.deleteAll();
     }
 
     @Override
