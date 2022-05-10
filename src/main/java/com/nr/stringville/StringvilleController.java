@@ -28,9 +28,16 @@ public class StringvilleController {
     }
 
     @PostMapping("/submission")
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity submission(@RequestBody String submission) {
+        if (submission == null || submission.length() < 1 || submission.length() > 10000) {
+            return ResponseEntity.status(400).body("invalid input");
+        }
+        if (!submission.contains(",")) {
+            return ResponseEntity.status(400).body("name must be present");
+        }
             String[] submissionArray = submission.split(",", 2);
+
             UserDTO userDTO = new UserDTO();
             String str = submissionArray[0];
             userDTO.setName(submissionArray[1]);
@@ -38,6 +45,8 @@ public class StringvilleController {
 
             User user = service.updateUser(userSubmission.getName(), str);
             return ResponseEntity.status(200).body(user.getName() + " accepted");
+
+
     }
 
     @GetMapping("/results")
